@@ -1,6 +1,3 @@
-# test
-
-
 import requests, time  # requests pulls URLs, time tracks how long pull takes
 from bs4 import BeautifulSoup  # HTML parser, translates data from html to python
 player = []
