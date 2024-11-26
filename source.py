@@ -1,53 +1,44 @@
+''' links that can be used for testing
+https://pbleagues.com/players-stats-rankings?league=316&year=2024
+https://pbleagues.com/players-stats-rankings?league=316&round=event=8334&year=2024&division=255-42
+'''
+
+'''TODO (priority based)
+1. sorting methods
+'''
+
+
 import requests, time  # requests pulls URLs, time tracks how long pull takes
 from bs4 import BeautifulSoup  # HTML parser, translates data from html to python
 player = []
 
-httpResponses = {  # dictionary of common status codes NOT including 200
-    # do research down the line to see if any can be resolved              
-                 
-    # 200s - success
-    201: "Resource successfully created",
-    204: "Request successful, no content returned",
-    
-    # 300s - redirection
-    301: "Resource permanently moved to a new location",
-    302: "Resource temporarily found at another location",
-    307: "Resource temporarily redirected to a new location",  # similar to 302, but resolving requires user to maintain same HTTP method
-    308: "Resource permanently redirected to a new location",  # similar to 301, but resolving requires user to maintain same HTTP method
-    
-    # 400s - client error
-    400: "Client sent invalid request",
-    401: "Authentication required to access resource",
-    403: "Access forbidden to resource",
-    404: "Requested resource not found",
-    405: "HTTP method not allowed for resource",
-    
-    # 500s - server error
-    500: "Server encountered an unexpected error",
-    502: "Invalid response from upstream server",
-    503: "Service is currently unavailable",
-    504: "Upstream server timeout occurred",
-}
 
 teamRosters = {  #WIP
     # figure out how to have a team roster here from pbleagues
     # would have to have the pull request somehow sign in before attempting to pull the data
 }
 
-requestStartTime = time.time()
+
 url = input(f"Paste link for dataset and hit enter\n")
-response = requests.get(url)
-requestEndTime = time.time()
-
-
-if response.status_code == 200:  # successful grab
+try:  # request successful
+    requestStartTime = time.time()
+    response = requests.get(url, timeout = 20)
+    response.raise_for_status()
+    requestEndTime = time.time()
     print(f"\nRequest successful | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
-else:  # unsuccessful grab
-    if response.status_code in httpResponses:  # list of most common responses NOT including 200 
-        print(f"\nRequest failed - {response.status_code}: {httpResponses[response.status_code]} | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
-    else:  # cover all case where the status code is not within the dictionary
-        print(f"\nRequest failed, case not covered - {response.status_code} | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
-        
+
+except requests.exceptions.Timeout:  # request failed, timeout
+    requestEndTime = time.time()
+    print(f"\nRequest failed - Request timed out | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
+
+except requests.exceptions.HTTPError as e:  # request failed, HTTP error
+    requestEndTime = time.time()
+    print(f"\nRequest failed - HTTP Error {e} | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
+
+except requests.exceptions.RequestException as e:  # request failed, acts as catchall 
+    requestEndTime = time.time()
+    print(f"\nRequest failed - {e} | {((requestEndTime - requestStartTime) * 1000):.0f} ms")
+
 
 soup = BeautifulSoup(response.text, "html.parser")
 table = soup.find("table", class_="table table-striped table-hover table-condensed playersTable")
@@ -70,3 +61,6 @@ for row in rows:  # extract data for each row
         "Point Win Percent": float(cells[9].text.strip().replace('%', ''))
     })
 
+
+for stat in player:  # poorly structured print statement
+    print(stat)
