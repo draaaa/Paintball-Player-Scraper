@@ -9,6 +9,11 @@ personal project, wanted to combine both passion for paintball as a sport and my
 pulls the html content from the target website, and parses the data using BeautifulSoup4
 likely will only cover pro league, i might take on the other divisions if i get around to it
 
+## UPDATE (11/30/24)
+
+rich library table now being used to show data
+colors and semi-proper structuring used on table
+
 ## TODO
 
 list of features to add, numbered by priority*
