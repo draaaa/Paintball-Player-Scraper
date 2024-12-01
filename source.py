@@ -70,6 +70,8 @@ table.add_column("Name")
 table.add_column("Team", no_wrap = True)
 table.add_column("Matches Played", justify = "right")
 table.add_column("Points Played", justify = "right")
+table.add_column("Points Won", justify = "right")
+table.add_column("Points Lost", justify = "right")
 table.add_column("Point Win %", justify = "right")
 
 
@@ -78,42 +80,84 @@ sortMethod = input(f"Stat to sort by: ")
 sortedPlayer = sorted(player, key = lambda player: player[sortMethod])
 
 
-def pointWinPercentStyle(x):  # return color name based on argument
-    if x <= 20:
-        return "dark_red"
-    elif x > 20 and x <= 40:
-        return "dark_goldenrod"
-    elif x > 40 and x <= 60:
-        return "gold3"
-    elif x > 60 and x <= 80:
-        return "chartreuse2"
-    elif x > 80 and x <= 100:
-        return "chartreuse1"
-    else:
-        return "grey93"
+def valueStyle(type, val1, val2):  # return text color 
+
+    if str(type.lower()) == "rank":  # return color based on rank
+        if val1 <= 50 and val1 > 20:
+            return "gold3"
+        elif val1 <= 20 and val1 > 3:
+            return "chartreuse4"
+        elif val1 <= 3:
+            return "chartreuse1"
+
+    elif str(type.lower()) == "winpercent":  # return color based on win percent
+        if val1 <= 20:
+            return "red3"
+        elif val1 > 20 and val1 <= 40:
+            return "dark_goldenrod"
+        elif val1 > 40 and val1 <= 60:
+            return "gold3"
+        elif val1 > 60 and val1 <= 80:
+            return "chartreuse4"
+        elif val1 > 80 and val1 <= 100:
+            return "chartreuse1"
+        else:
+            return "grey93" 
+
+    elif str(type.lower()) == "pointswon":  # return color based on points won
+        if val1 > val2:
+            return "chartreuse1"
+        elif val1 == val2:
+            return "gold3"
+
+    elif str(type.lower()) == "pointslost":  # return color based on points lost
+        if val1 < val2:
+            return "red3"
+        elif val1 == val2:
+            return "gold3"
 
 
 for stat in sortedPlayer:  # loop to add data to table
-    
-    teams = stat["Team"].split(", ")
-    if len(teams) > 1:  # if there is more than 1 team
-        formattedTeams = " / ".join(teams)
-    else:
-        formattedTeams = stat["Team"]
-        
-    pointWinPercentText = Text(  # dynamic text to change style 
-        f"{stat['Point Win Percent']:.2f}%",
-        style = pointWinPercentStyle(stat["Point Win Percent"])
+
+    rankText = Text(  # dynamic text to change style of rank
+        f"{str(stat['Rank'])}",
+        style = valueStyle("Rank", stat["Rank"], None)
     )
-    
-    
+
+
+    teamsText = Text(  # dynamic text modified if multiple teams exist for the entry
+    " / ".join(stat["Team"].split(", ")) if ", " in stat["Team"] else stat["Team"]
+    )
+
+
+    pointWinPercentText = Text(  # dynamic text to change style of point win %
+        f"{stat['Point Win Percent']:.2f}%",
+        style = valueStyle("WinPercent", stat["Point Win Percent"], None)
+    )
+
+
+    pointWinText = Text(  # dynamic text to change style of points won
+        f"{stat['Points Won']}",
+        style = valueStyle("PointsWon", stat["Points Won"], stat["Points Lost"])
+    )
+
+
+    pointLoseText = Text(  # dynamic text to change style of points lost
+        f"{stat['Points Lost']}",
+        style = valueStyle("PointsLost", stat["Points Won"], stat["Points Lost"])
+    )
+
+
     table.add_row(  # data added to table
-    str(stat["Rank"]),
+    rankText,
     stat["Name"],
-    formattedTeams,
+    teamsText,
     str(stat["Matches Played"]),
     str(stat["Points Played"]),
+    pointWinText,
+    pointLoseText,
     pointWinPercentText
     )
     
+
 console.print(table)

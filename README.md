@@ -16,6 +16,9 @@ list of features to add, numbered by priority*
 absolute
 
 > 1. sorting data by user-chosen value < kind of already done, can be ironed out
+
+>> 1a. sorting method based on integers is reversed, will fix soon
+
 > 2. teams and rosters from specific years and events
 
 ambitions maybes
