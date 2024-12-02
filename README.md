@@ -4,29 +4,29 @@
 
 -----------------------------------------------------------------------------------------
 
+## IMPORTANT
+
+it seems that keeping track of player stats is a recent thing, or the data for the player stats (starting at 2023 and before) are not accessible
+this means either one of two things
+
+> 1. stop here, and say it's finished (boring)
+>> dont really wanna do this, because quitting from one roadblock like this is lame and stupid
+
+> 2. expand the scope, shift the data collection
+>> this means either leaving the player stat scraper as it's own thing entirely, and rennovating this code for using team stats instead
+>> using team stats will require a login (i think) so this shit is about to get much, much more complex
+
+whether i flip this project on it's head or not, it's been fun to work on it, despite the trials and tribulations and mounts of stress that came with it at first
+however, continuing to work on it will only look better for myself
+whatever happens now, is completely up to myself
+
+-----------------------------------------------------------------------------------------
+
 personal project, wanted to combine both passion for paintball as a sport and my education in programming
 
 pulls the html content from the target website, and parses the data using BeautifulSoup4
 likely will only cover pro league, i might take on the other divisions if i get around to it
 
-## UPDATE (11/30/24)
+## UPDATE (12/2/24)
 
-rich library table now being used to show data
-colors and semi-proper structuring used on table
-
-## TODO
-
-list of features to add, numbered by priority*
-
-absolute
-
-> 1. sorting data by user-chosen value < kind of already done, can be ironed out
-
->> 1a. sorting method based on integers is reversed, will fix soon
-
-> 2. teams and rosters from specific years and events
-
-ambitions maybes
-
-> 1. team stats and performance in event
-> 2. compare team stats with other teams
+URLs now stored in dictionary for user convenience
