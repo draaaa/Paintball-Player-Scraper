@@ -16,7 +16,9 @@ it seems that keeping track of player stats is a recent thing, or the data for t
 >> using team stats will require a login (i think) so this shit is about to get much, much more complex
 
 whether i flip this project on it's head or not, it's been fun to work on it, despite the trials and tribulations and mounts of stress that came with it at first
+
 however, continuing to work on it will only look better for myself
+
 whatever happens now, is completely up to myself
 
 -----------------------------------------------------------------------------------------
