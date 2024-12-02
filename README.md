@@ -26,6 +26,7 @@ whatever happens now, is completely up to myself
 personal project, wanted to combine both passion for paintball as a sport and my education in programming
 
 pulls the html content from the target website, and parses the data using BeautifulSoup4
+
 likely will only cover pro league, i might take on the other divisions if i get around to it
 
 ## UPDATE (12/2/24)
