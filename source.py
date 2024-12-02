@@ -1,7 +1,20 @@
-''' links that can be used for testing
-https://pbleagues.com/players-stats-rankings?league=316&year=2024
-https://pbleagues.com/players-stats-rankings?league=316&round=event=8334&year=2024&division=255-42
 '''
+IMPORTANT
+it seems that keeping track of player stats is a recent thing, or the data for the player stats (starting at 2023 and before) are not accessible. 
+this means either one of two things
+
+    1. stop here, and say it's finished (boring)
+        dont really wanna do this, because quitting from one roadblock like this is lame and stupid
+
+    2. expand the scope, shift the data collection
+        this means either leaving the player stat scraper as it's own thing entirely, and rennovating this code for using team stats instead
+        using team stats will require a login (i think) so this shit is about to get much, much more complex
+
+whether i flip this project on it's head or not, it's been fun to work on it, despite the trials and tribulations and mounts of stress that came with it at first
+however, continuing to work on it will only look better for myself
+whatever happens now, is completely up to myself
+'''
+
 
 from rich.table import Table
 from rich.console import Console
@@ -15,13 +28,40 @@ table = Table(title = "Player Stats")  # title for table
 player = []
 
 
+events = {    # player stats from lone star, mid-atlantic, and windy city seem to be missing from the website for the 2023 season  
+    2023 : {  
+        "Sunshine State Major" : "https://pbleagues.com/event/7927/player-stats",
+        "World Cup"            : "https://pbleagues.com/event/8196/player-stats",
+        "Overall"              : "https://pbleagues.com/players-stats-rankings?league=316&year=2023"
+    },
+    2024 : {
+        "Las Vegas Major"    : "https://pbleagues.com/event/8334/player-stats", 
+        "Lone Star Major"    : "https://pbleagues.com/event/8335/player-stats",
+        "Mid-Atlantic Major" : "https://pbleagues.com/event/8336/player-stats",
+        "Windy City Major"   : "https://pbleagues.com/event/8337/player-stats", 
+        "World Cup"          : "https://pbleagues.com/event/8338/player-stats",
+        "Overall"            : "https://pbleagues.com/players-stats-rankings?league=316&year=2024"
+    }
+}
+
+
 teamRosters = {  #WIP
     # figure out how to have a team roster here from pbleagues
     # would have to have the pull request somehow sign in before attempting to pull the data
 }
 
 
-url = input(f"Paste link for dataset and hit enter\n")
+eventYearInput = int(input(f"Enter the year of the event for the dataset\n"))
+if eventYearInput not in events:  # year not in events dictionary, program termed
+    print("Input not in events dictionary")
+    quit()
+eventNameInput = input(f"Enter the name of the event\n")
+if eventNameInput not in events[eventYearInput]:  # event name not under year, program termed
+    print(f"Input not in events dictionary for {eventYearInput}")
+    quit()
+url = events[eventYearInput][eventNameInput]
+
+
 try:  # request successful
     requestStartTime = time.time()
     response = requests.get(url, timeout = 20)
