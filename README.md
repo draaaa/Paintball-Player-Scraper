@@ -6,8 +6,7 @@
 
 ## IMPORTANT
 
-it seems that keeping track of player stats is a recent thing, or the data for the player stats (starting at 2023 and before) are not accessible
-this means either one of two things
+it seems that keeping track of player stats is a recent thing, or the data for the player stats (starting at 2023 and before) are not accessible, so this means either one of two things
 
 > 1. stop here, and say it's finished (boring)
 >> dont really wanna do this, because quitting from one roadblock like this is lame and stupid
